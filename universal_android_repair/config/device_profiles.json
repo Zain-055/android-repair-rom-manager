@@ -1,0 +1,43 @@
+{
+  "profiles": [
+    {
+      "manufacturer": "Google",
+      "model": "Pixel 8",
+      "codename": "shiba",
+      "chipset": "Google Tensor G3",
+      "platform": "Google Tensor",
+      "supported_protocols": ["adb", "fastboot"],
+      "required_drivers": ["Google USB drivers"],
+      "firmware_formats": ["factory-image", "fastboot"],
+      "bootloader_requirements": "Unlocking is required for custom ROMs and will erase user data.",
+      "supported_roms": ["LineageOS", "AOSP"],
+      "android_version": "14"
+    },
+    {
+      "manufacturer": "Samsung",
+      "model": "Galaxy S24",
+      "codename": "samsung",
+      "chipset": "Exynos 2400",
+      "platform": "Samsung Exynos",
+      "supported_protocols": ["adb", "odin", "fastboot"],
+      "required_drivers": ["Samsung USB drivers", "ODIN compatible driver set"],
+      "firmware_formats": ["factory-image", "samsung-archive"],
+      "bootloader_requirements": "Use authorized Samsung flashing tools and verify the exact region and model.",
+      "supported_roms": ["One UI stock", "Custom kernels"],
+      "android_version": "14"
+    },
+    {
+      "manufacturer": "OnePlus",
+      "model": "OnePlus 12",
+      "codename": "sunstone",
+      "chipset": "Snapdragon 8 Gen 3",
+      "platform": "Qualcomm Snapdragon",
+      "supported_protocols": ["adb", "fastboot"],
+      "required_drivers": ["Qualcomm USB drivers"],
+      "firmware_formats": ["fastboot", "OTA"],
+      "bootloader_requirements": "Unlocking is optional for custom ROMs but must be explicitly approved.",
+      "supported_roms": ["LineageOS", "crDroid"],
+      "android_version": "14"
+    }
+  ]
+}
