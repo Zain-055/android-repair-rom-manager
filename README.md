@@ -1,6 +1,6 @@
 # Universal Android Repair & ROM Manager
 
-This project provides a desktop application for Android device diagnosis, firmware validation, and guarded Pixel restore/ROM installation workflows.
+Universal Android Repair & ROM Manager is a desktop toolkit for ADB/Fastboot diagnostics, device and MediaTek identification, and firmware compatibility checks. It supports checksum-verified Pixel downloads, Google USB driver installation, and guarded Pixel 8/9 stock-OTA and LineageOS workflows. TECNO and Infinix support includes firmware references, not generic MediaTek flashing.
 
 ## Features
 
