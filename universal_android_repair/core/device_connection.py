@@ -5,6 +5,8 @@ import shutil
 import subprocess
 from dataclasses import dataclass, field
 
+from .process_utils import run_hidden
+
 
 class DeviceConnectionError(RuntimeError):
     """Raised when Android Platform Tools cannot inspect connected devices."""
@@ -81,7 +83,7 @@ class AndroidDeviceConnector:
 
     def _run(self, command: list[str]) -> subprocess.CompletedProcess[str]:
         try:
-            result = subprocess.run(
+            result = run_hidden(
                 command,
                 capture_output=True,
                 text=True,
@@ -102,7 +104,7 @@ class AndroidDeviceConnector:
         devices: list[tuple[str, str]] = []
         for line in output.splitlines():
             parts = line.strip().split()
-            if len(parts) >= 2 and parts[1] in {"device", "unauthorized", "offline"}:
+            if len(parts) >= 2 and parts[1] in {"device", "unauthorized", "offline", "sideload"}:
                 devices.append((parts[0], parts[1]))
         return devices
 
@@ -121,7 +123,7 @@ class AndroidDeviceConnector:
 
     def _read_fastboot_variable(self, fastboot_path: str, serial: str, variable: str) -> str:
         try:
-            result = subprocess.run(
+            result = run_hidden(
                 [fastboot_path, "-s", serial, "getvar", variable],
                 capture_output=True,
                 text=True,

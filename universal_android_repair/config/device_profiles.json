@@ -9,9 +9,36 @@
       "supported_protocols": ["adb", "fastboot"],
       "required_drivers": ["Google USB drivers"],
       "firmware_formats": ["factory-image", "fastboot"],
-      "bootloader_requirements": "Unlocking is required for custom ROMs and will erase user data.",
-      "supported_roms": ["LineageOS", "AOSP"],
+      "bootloader_requirements": "LineageOS installation is allowed only if the bootloader is already unlocked.",
+      "supported_roms": ["LineageOS"],
       "android_version": "14"
+    },
+    {
+      "manufacturer": "Google",
+      "model": "Pixel 9",
+      "codename": "tokay",
+      "chipset": "Google Tensor G4",
+      "platform": "Google Tensor",
+      "supported_protocols": ["adb", "fastboot"],
+      "required_drivers": ["Google USB drivers"],
+      "firmware_formats": ["factory-image", "OTA", "fastboot"],
+      "bootloader_requirements": "LineageOS installation requires a bootloader that is already unlocked.",
+      "supported_roms": ["LineageOS"],
+      "android_version": "14"
+    },
+    {
+      "manufacturer": "TECNO",
+      "model": "TECNO Camon 19 Neo",
+      "codename": "CH6i",
+      "model_aliases": ["Camon 19 Neo", "TECNO CH6i"],
+      "chipset": "MediaTek (exact SoC unverified)",
+      "platform": "MediaTek",
+      "supported_protocols": ["ADB when enabled and authorized"],
+      "required_drivers": ["TECNO / Carlcare official support"],
+      "firmware_formats": [],
+      "bootloader_requirements": "No public authorized model-specific flashing procedure validated; use TECNO or Carlcare support.",
+      "supported_roms": [],
+      "android_version": "Unknown"
     },
     {
       "manufacturer": "Samsung",

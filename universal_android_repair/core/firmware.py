@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import re
 from dataclasses import dataclass, field
 from enum import Enum
 from pathlib import Path
@@ -108,13 +109,23 @@ class FirmwareManager:
                 "The firmware package is missing the required signature metadata.",
             ])
 
+        if (
+            firmware.signature_status.lower() != "verified"
+            or firmware.verification_status.lower() != "verified"
+            or not re.fullmatch(r"[0-9a-fA-F]{64}", firmware.sha256)
+        ):
+            return CompatibilityReport(CompatibilityStatus.UNVERIFIED, [
+                "The package checksum and signature have not been verified.",
+                "Download the package from an official source and verify its published checksum before installation.",
+            ])
+
         if firmware.official is False:
             messages.append("This is a community-maintained package. Confirm the source and checksum before installation.")
 
         if device_bootloader.lower() == "locked" and firmware.package_type == "custom-rom":
             return CompatibilityReport(CompatibilityStatus.CONDITIONALLY_COMPATIBLE, [
-                "Bootloader is locked. Unlocking is required before this custom ROM can be installed.",
-                "User consent is required before bootloader changes are performed.",
+                "Bootloader is locked. This application installs custom ROMs only when it is already unlocked.",
+                "No bootloader-unlock or account-protection bypass operation is provided.",
             ])
 
         messages.append("Firmware package and device metadata are aligned.")

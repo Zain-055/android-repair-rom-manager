@@ -12,9 +12,9 @@
       "android_version": "14",
       "source": "Google Factory Images",
       "official": true,
-      "sha256": "e2b3c6d8ff70aa2a0b0afcc6b76c5119ef741f4e2f5b88583b0c9fa7830d87c3",
-      "signature_status": "verified",
-      "verification_status": "verified"
+      "sha256": "unknown",
+      "signature_status": "not checked",
+      "verification_status": "pending"
     },
     {
       "name": "galaxy_s24_exynos_factory",
@@ -28,9 +28,9 @@
       "android_version": "14",
       "source": "Samsung Firmware Archive",
       "official": true,
-      "sha256": "57c21f0395d625d79e30a9ab3b6887c9cb0c0256e4afdd44674d3fb969c1a0b4",
-      "signature_status": "verified",
-      "verification_status": "verified"
+      "sha256": "unknown",
+      "signature_status": "not checked",
+      "verification_status": "pending"
     },
     {
       "name": "oneplus_12_lineage_official",
@@ -44,9 +44,9 @@
       "android_version": "14",
       "source": "LineageOS official builds",
       "official": false,
-      "sha256": "a316a2374a3e808ab3f2d7cba71a6d6b42b7c0324d7a06b9c8d7db7d1cc4e64f",
-      "signature_status": "verified",
-      "verification_status": "verified"
+      "sha256": "unknown",
+      "signature_status": "not checked",
+      "verification_status": "pending"
     }
   ]
 }

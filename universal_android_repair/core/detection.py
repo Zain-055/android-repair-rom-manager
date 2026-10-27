@@ -1,9 +1,31 @@
 from __future__ import annotations
 
+import re
 from dataclasses import dataclass, field
 from typing import Any
 
 from .device_profiles import DeviceProfile, find_matching_profile, load_device_profiles
+from .manufacturers import normalize_manufacturer
+
+
+_MEDIATEK_CHIPSET = re.compile(r"\bmtk?\s*-?\d{4,6}[a-z0-9]*\b", re.IGNORECASE)
+
+
+def infer_platform(chipset: str, platform: str = "") -> str:
+    chipset_name = chipset.lower()
+    is_mediatek = (
+        "mediatek" in chipset_name
+        or "dimensity" in chipset_name
+        or "helio" in chipset_name
+        or _MEDIATEK_CHIPSET.search(chipset)
+    )
+    if is_mediatek and platform.strip().lower() in {"", "not detected", "unknown", "android"}:
+        return "MediaTek"
+    if platform and platform != "Not detected":
+        return platform
+    if is_mediatek:
+        return "MediaTek"
+    return platform or "Not detected"
 
 
 @dataclass
@@ -36,11 +58,17 @@ class DeviceDetectionEngine:
         fastboot = raw.get("fastboot", {}) if isinstance(raw.get("fastboot", {}), dict) else {}
         usb = raw.get("usb", {}) if isinstance(raw.get("usb", {}), dict) else {}
 
-        detection.manufacturer = str(adb.get("manufacturer") or usb.get("manufacturer") or "Not detected")
+        raw_manufacturer = str(adb.get("manufacturer") or usb.get("manufacturer") or "Not detected")
+        detection.manufacturer = (
+            normalize_manufacturer(raw_manufacturer)
+            if raw_manufacturer != "Not detected"
+            else raw_manufacturer
+        )
         detection.model = str(adb.get("model") or fastboot.get("device") or usb.get("model") or "Not detected")
         detection.codename = str(adb.get("codename") or fastboot.get("codename") or "Not detected")
         detection.platform = str(adb.get("platform") or fastboot.get("platform") or "Not detected")
         detection.chipset = str(adb.get("chipset") or fastboot.get("chipset") or "Not detected")
+        detection.platform = infer_platform(detection.chipset, detection.platform)
         detection.cpu_architecture = str(adb.get("cpu_architecture") or fastboot.get("cpu_architecture") or "Not detected")
         detection.android_version = str(adb.get("android_version") or fastboot.get("android_version") or "Not detected")
         detection.build_fingerprint = str(adb.get("build_fingerprint") or fastboot.get("build_fingerprint") or "Not detected")
@@ -64,6 +92,10 @@ class DeviceDetectionEngine:
         if detection.profile:
             if detection.manufacturer == "Not detected":
                 detection.manufacturer = detection.profile.manufacturer
+            if detection.codename == "Not detected":
+                detection.codename = detection.profile.codename
+            if detection.model.lower() == detection.profile.codename.lower():
+                detection.model = detection.profile.model
             if detection.chipset == "Not detected":
                 detection.chipset = detection.profile.chipset
             if detection.platform == "Not detected":
